@@ -2,16 +2,16 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
     <label>Razón social</label><br />
-    <input formControlName="razonSocial" />
-    <div *ngIf="form.controls['razonSocial'].touched && form.controls['razonSocial'].invalid">
+    <input formControlName="RazonSocial" />
+    <div *ngIf="form.controls['RazonSocial'].touched && form.controls['RazonSocial'].invalid">
       Razón social requerida.
     </div>
   </div>
 
   <div>
     <label>RFC</label><br />
-    <input formControlName="rfc" />
-    <div *ngIf="form.controls['rfc'].touched && form.controls['rfc'].invalid">
+    <input formControlName="RFC" />
+    <div *ngIf="form.controls['RFC'].touched && form.controls['RFC'].invalid">
       RFC requerido.
     </div>
   </div>
