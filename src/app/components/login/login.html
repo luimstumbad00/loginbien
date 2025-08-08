@@ -1,1 +1,25 @@
-<p>login works!</p>
+<h2>Login</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Razón social</label><br />
+    <input formControlName="razonSocial" />
+    <div *ngIf="form.controls['razonSocial'].touched && form.controls['razonSocial'].invalid">
+      Razón social requerida.
+    </div>
+  </div>
+
+  <div>
+    <label>RFC</label><br />
+    <input formControlName="rfc" />
+    <div *ngIf="form.controls['rfc'].touched && form.controls['rfc'].invalid">
+      RFC requerido.
+    </div>
+  </div>
+
+  <div *ngIf="serverError" style="color:darkred; margin-top:8px;">
+    {{ serverError }}
+  </div>
+
+  <button type="submit" [disabled]="loading">Entrar</button>
+</form>
+

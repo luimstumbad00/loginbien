@@ -9,32 +9,8 @@ import { AuthService } from '../../services/auth';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule],
-  template: `
-    <h2>Login</h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div>
-        <label>Razón social</label><br />
-        <input formControlName="razonSocial" />
-        <div *ngIf="form.controls['razonSocial'].touched && form.controls['razonSocial'].invalid">
-          Razón social requerida.
-        </div>
-      </div>
-
-      <div>
-        <label>RFC</label><br />
-        <input formControlName="rfc" />
-        <div *ngIf="form.controls['rfc'].touched && form.controls['rfc'].invalid">
-          RFC requerido.
-        </div>
-      </div>
-
-      <div *ngIf="serverError" style="color:darkred; margin-top:8px;">
-        {{ serverError }}
-      </div>
-
-      <button type="submit" [disabled]="loading">Entrar</button>
-    </form>
-  `
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
 })
 export class LoginComponent {
   form = new FormGroup({
@@ -62,29 +38,23 @@ export class LoginComponent {
       next: (res) => {
         this.loading = false;
 
-        // Intentamos encontrar el token en varios lugares comunes:
         const body = res.body ?? {};
         const token =
           body?.token ??
           body?.jwt ??
           body?.accessToken ??
           body?.access_token ??
-          // Si el backend devuelve Authorization en header:
           (res.headers?.get ? res.headers.get('Authorization')?.replace('Bearer ', '') : null);
 
         if (token) {
           localStorage.setItem('jwt', token);
-          // Navega a la ruta que quieras después del login:
-          this.router.navigate(['/dashboard']); // o la ruta que prefieras
+          this.router.navigate(['/dashboard']);
         } else {
-          // Si 200 pero no viene token:
           this.serverError = 'Autenticación exitosa pero no se recibió token.';
         }
       },
       error: (err) => {
         this.loading = false;
-        // Mostrar el error personalizado que envía el servidor cuando exista
-        // (puede estar en err.error.message, err.error, etc.)
         this.serverError =
           err?.error?.message ??
           (typeof err?.error === 'string' ? err.error : null) ??
