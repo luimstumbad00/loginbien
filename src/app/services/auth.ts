@@ -12,6 +12,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/login/clientes'; // Reemplaza con la URL de tu API
+  private apiTrabajadoresUrl = 'http://localhost:8080/login/trabajadores';
 
   constructor(private http: HttpClient) {}
 
@@ -28,6 +29,18 @@ login(RazonSocial: string, RFC: string): Observable<HttpResponse<string>> {
     })
   );
 }
+
+// Login para trabajadores
+  loginTrabajador(usuario: string, password: string): Observable<HttpResponse<string>> {
+    const credentials = { usuario, password };
+    console.log('Enviando credenciales trabajador:', credentials);
+    return this.http.post(this.apiTrabajadoresUrl, credentials, {
+      observe: 'response',
+      responseType: 'text'
+    }).pipe(
+      catchError(err => throwError(() => err))
+    );
+  }
 
 
   // Nuevo método para guardar el token

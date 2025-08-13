@@ -1,0 +1,24 @@
+<h2>Login admins</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Usuario</label><br />
+    <input formControlName="usuario" />
+    <div *ngIf="form.controls['usuario'].touched && form.controls['usuario'].invalid">
+      Nombre requerido.
+    </div>
+  </div>
+
+  <div>
+    <label>Password</label><br />
+    <input formControlName="password" />
+    <div *ngIf="form.controls['password'].touched && form.controls['password'].invalid">
+      Contraseña requerida.
+    </div>
+  </div>
+
+  <div *ngIf="serverError" style="color:darkred; margin-top:8px;">
+    {{ serverError }}
+  </div>
+
+  <button type="submit" [disabled]="loading">Entrar</button>
+</form>
